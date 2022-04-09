@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="nertz.css"> <link>
+    <title>Nertz</title>
+</head>
+<body>
+    <div>
+        <span id="numPlayers">Player count: 3</span>
+        <button id="inc" onclick="increment()">+</button>
+        <button id="dec" onclick="decrement()">-</button>
+        <script>
+            let count = 3;
+            const numPlayers = document.getElementById("numPlayers");
+            const inc = document.getElementById("inc");
+            const dec = document.getElementById("dec");
+            function increment(){
+                if(++count == 10){
+                    inc.disabled = true;
+                }
+                dec.disabled = false;
+                numPlayers.innerHTML = "Player count: " + count;
+            }
+
+            function decrement(){
+                if(--count == 2){
+                    dec.disabled = true;
+                }
+                inc.disabled = false;
+                numPlayers.innerHTML = "Player count: " + count;
+            }
+        </script>
+    </div>
+
+    <div id="playerTable">
+        <button id="startGame" onclick="startGame()">Start Game</button>
+
+        <table id="columns"></table>
+        <script>
+            function startGame(){
+                document.getElementById("startGame").disabled = true;
+                inc.disabled = true;
+                dec.disabled = true;
+
+                for(var i = 1; i <= count; i++){
+                    let player = document.createElement("th");
+                    player.innerHTML = `Player ${i}`;
+                    player.id = "player"+i;
+                    document.getElementById("columns").appendChild(player);
+
+                    let score = document.createElement("tr");
+                    score.value = 0;
+                    score.innerHTML = "Score: " + score.value;
+                    score.id = "score"+i;
+                    document.getElementById(player.id).appendChild(score);
+
+                    let input = document.createElement("input");
+                    input.id="input"+i;
+                    input.type="number"
+                    document.getElementById(player.id).appendChild(input);
+
+                    let button = document.createElement("button");
+                    button.innerHTML = "Add Score"
+                    button.value = 1;
+                    button.onclick = function(){
+                        if(input.value != ''){
+                            let x = Number(score.value) + Number(input.value);
+                            score.value = x;
+                            score.innerHTML = "Score: " + x;
+                            let roundScore = document.createElement("tr");
+                            roundScore.innerHTML = `Round ${button.value++}: ${input.value}`;
+                            document.getElementById(player.id).appendChild(roundScore);
+                            input.value = '';
+                        }
+                    }
+                    document.getElementById(player.id).appendChild(button);
+                }
+            }
+        </script>
+    </div>
+</body>
+</html>

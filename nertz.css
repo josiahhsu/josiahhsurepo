@@ -1,0 +1,7 @@
+body{
+    background-color: lightgray;
+}
+
+th, tr, input{
+    width: 10em;
+}
